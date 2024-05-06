@@ -51,9 +51,38 @@ def read_cookbook():
 # def get_shop_list_by_dishes(['Запеченный картофель', 'Омлет'], 2):
 #     pass
 
+
+# TODO: Нужно написать функцию, которая на вход принимает список блюд из
+#  cook_book и количество персон для кого мы будем готовить
+
+def get_shop_list_by_dishes(dishes, person_count):
+    ingr_list = dict()
+
+    for dish_name in dishes:  # итерируем список полученных блюд
+        if dish_name in cook_book:
+            for ings in cook_book[dish_name]:  # итерируем ингредиенты в блюде
+                meas_quan_list = dict()
+                if ings['ingredient_name'] not in ingr_list:
+                    meas_quan_list['measure'] = ings['measure']
+                    meas_quan_list['quantity'] = ings['quantity'] * person_count
+                    ingr_list[ings['ingredient_name']] = meas_quan_list
+                else:
+                    ingr_list[ings['ingredient_name']]['quantity'] = ingr_list[ings['ingredient_name']]['quantity'] + \
+                                                                     ings['quantity'] * person_count
+
+        else:
+            print(f'\n"Такого блюда нет в списке!"\n')
+    return ingr_list
+
+
 if __name__ == '__main__':
     filename = "recipes.txt"
     cook_book = read_cookbook()
     print('Задание 1------------------------------------------------------------')
     time.sleep(1)
     print(cook_book)
+    print('Задание 2------------------------------------------------------------')
+    pprint(get_shop_list_by_dishes(dishes=['Запеченный картофель', 'Омлет'], person_count=2))
+
+    time.sleep(2)
+    
